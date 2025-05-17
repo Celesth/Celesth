@@ -61,7 +61,7 @@
 
   <script>
     const countdown = document.getElementById("dob-countdown");
-    const targetDate = new Date(new Date().getFullYear(), 11, 18); // July 1
+    const targetDate = new Date(new Date().getFullYear(), 11, 18);
 
     function updateCountdown() {
       const now = new Date();
@@ -73,7 +73,7 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
-      countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s until your birthday!`;
+      countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s until my birthday!`;
     }
 
     setInterval(updateCountdown, 1000);
