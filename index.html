@@ -11,7 +11,7 @@
     <img src="Assets/pfp.jpg" alt="Your Avatar" class="avatar" />
     <div class="user-info">
       <h2 class="symbol">celesth</h2>
-      <h1>he/him ✦ 愛 </h1>
+      <h1>he/him ✦ 愛</h1>
     </div>
   </div>
 
@@ -46,5 +46,38 @@
       <img src="Assets/Osu!_Logo_2016.svg.png" alt="Osu" class="game-icon" />
     </div>
   </div>
+
+  <div class="profile-header dob-box">
+    <div class="dob-date">
+      <h1>Dec</h1>
+      <p>18th</p>
+    </div>
+    <div class="dob-separator"></div>
+    <div class="dob-info">
+      <h2>Next Birthday</h2>
+      <p id="dob-countdown">Loading...</p>
+    </div>
+  </div>
+
+  <script>
+    const countdown = document.getElementById("dob-countdown");
+    const targetDate = new Date(new Date().getFullYear(), 11, 18); // July 1
+
+    function updateCountdown() {
+      const now = new Date();
+      if (now > targetDate) targetDate.setFullYear(now.getFullYear() + 1);
+
+      const diff = targetDate - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s until your birthday!`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 </body>
 </html>
