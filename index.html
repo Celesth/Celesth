@@ -48,6 +48,16 @@
     </div>
   </div>
 
+  <!-- Discord Presence Section -->
+  <div class="profile-header presence-box">
+    <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar" />
+    <div class="user-info">
+      <h2 id="discord-username">Loading...</h2>
+      <p id="discord-status">Status: Loading...</p>
+      <p id="discord-activity">Activity: Loading...</p>
+    </div>
+  </div>
+
   <div class="profile-header dob-box">
     <div class="dob-date">
       <h1>Dec</h1>
@@ -61,6 +71,7 @@
   </div>
 
   <script>
+    // Birthday Countdown
     const countdown = document.getElementById("dob-countdown");
     const targetDate = new Date(new Date().getFullYear(), 11, 18);
 
@@ -79,6 +90,39 @@
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // Discord Presence via Lanyard API
+    async function loadDiscordPresence() {
+      try {
+        const res = await fetch("https://api.lanyard.rest/v1/users/744471023834890330");
+        const data = await res.json();
+        if (!data.success) return;
+
+        const user = data.data.discord_user;
+        const status = data.data.discord_status;
+        const activities = data.data.activities;
+
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+
+        document.getElementById("discord-avatar").src = avatarUrl;
+        document.getElementById("discord-username").textContent = `${user.global_name} (@${user.username})`;
+        document.getElementById("discord-status").textContent = "Status: " + status.toUpperCase();
+
+        if (activities.length > 0) {
+          let activity = activities[0];
+          let activityText = activity.state || activity.details || activity.name;
+          document.getElementById("discord-activity").textContent = "Activity: " + activityText;
+        } else {
+          document.getElementById("discord-activity").textContent = "Activity: None";
+        }
+      } catch (e) {
+        console.error("Failed to load Discord presence", e);
+      }
+    }
+
+    loadDiscordPresence();
+    // refresh every 30s
+    setInterval(loadDiscordPresence, 30000);
   </script>
 </body>
 </html>
