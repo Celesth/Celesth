@@ -72,7 +72,7 @@ async function loadDiscordPresence() {
         state.textContent = act.state ? `State: ${act.state}` : "";
 
         const details = document.createElement("p");
-        details.textContent = act.title ? `Details: ${act.details}` : "";
+        details.textContent = act.title ? `Details: ${act.title}` : "";
 
         info.appendChild(title);
         if (state.textContent) info.appendChild(state);
