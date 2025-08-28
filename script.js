@@ -66,13 +66,13 @@ async function loadDiscordPresence() {
         info.className = "activity-info";
 
         const title = document.createElement("h3");
-        title.textContent = act.name || "Unknown Activity";
+        title.textContent = act.details || "Unknown Activity";
 
         const state = document.createElement("p");
         state.textContent = act.state ? `State: ${act.state}` : "";
 
         const details = document.createElement("p");
-        details.textContent = act.details ? `Details: ${act.details}` : "";
+        details.textContent = act.title ? `Details: ${act.details}` : "";
 
         info.appendChild(title);
         if (state.textContent) info.appendChild(state);
