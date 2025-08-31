@@ -48,19 +48,20 @@
     </div>
   </div>
 
-  <!-- Discord Presence Section -->
+  <!-- Discord Presence Section (activities inside user-info) -->
   <div class="profile-header presence-box">
-    <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar" />
+    <div class="avatar-wrapper">
+      <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar" />
+      <div id="discord-status-dot" class="status-dot status-offline"></div>
+    </div>
+
     <div class="user-info">
       <h2 id="discord-username">Loading...</h2>
       <p id="discord-status">Status: Loading...</p>
-    </div>
-  </div>
 
-  <!-- New Activities Section -->
-  <div class="profile activities-box">
-    <h2>Activities</h2>
-    <div id="activities-container" class="activities"></div>
+      <!-- Activities moved here to be part of user-info -->
+      <div id="activities-container" class="activities"></div>
+    </div>
   </div>
 
   <!-- Birthday Countdown -->
@@ -78,4 +79,4 @@
 
   <script src="script.js"></script>
 </body>
-</html>
+  </html>
