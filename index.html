@@ -7,17 +7,29 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="profile-header">
+  <div class="profile-header top-header">
     <img src="Assets/Resins.png" alt="Your Avatar" class="avatar" />
+
     <div class="user-info">
       <h2 class="symbol">celesth</h2>
       <h1>he/him ✦ 愛</h1>
+    </div>
+
+    <div class="presence-inline">
+      <div class="avatar-wrapper">
+        <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar discord-avatar" />
+        <div id="discord-status-dot" class="status-dot status-offline"></div>
+      </div>
+      <div class="presence-text">
+        <h2 id="discord-username">Loading...</h2>
+        <p id="discord-status">Status: Loading...</p>
+      </div>
     </div>
   </div>
 
   <div class="profile">
     <h2>My Projects</h2>
-    <div class="projects">
+    <div class="projects tile-grid" id="projects-grid">
       <div class="project">
         <h3>Modules</h3>
         <p>A Collection Of Scripts I've Used Or Made.</p>
@@ -43,7 +55,7 @@
 
   <div class="profile-header games-box">
     <h2>Games I Play/Played</h2>
-    <div class="game-icons">
+    <div class="game-icons tile-grid" id="games-grid">
       <img src="Assets/rblx.jpg" alt="Roblox" class="game-icon" />
       <img src="Assets/wuwa.webp" alt="Wuthering Waves" class="game-icon" />
       <img src="Assets/images (7).jpeg" alt="Punishing Grey Raven" class="game-icon" />
@@ -53,23 +65,17 @@
     </div>
   </div>
 
-  <!-- Discord Presence Section (activities inside user-info) -->
-  <div class="profile-header presence-box">
-    <div class="avatar-wrapper">
-      <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar" />
-      <div id="discord-status-dot" class="status-dot status-offline"></div>
-    </div>
-
-    <div class="user-info">
-      <h2 id="discord-username">Loading...</h2>
-      <p id="discord-status">Status: Loading...</p>
-
-      <!-- Activities moved here to be part of user-info -->
-      <div id="activities-container" class="activities"></div>
-    </div>
+  <div class="profile template-box">
+    <h2>Templates</h2>
+    <p class="template-note">Quick starter tiles for new sections you might add later.</p>
+    <div id="template-grid" class="tile-grid templates-grid"></div>
   </div>
 
-  <!-- Birthday Countdown -->
+  <div class="profile-header presence-box">
+    <h2>Current Activities</h2>
+    <div id="activities-container" class="activities"></div>
+  </div>
+
   <div class="profile-header dob-box">
     <div class="dob-date">
       <h1>Dec</h1>
@@ -84,4 +90,4 @@
 
   <script src="script.js"></script>
 </body>
-  </html>
+</html>
