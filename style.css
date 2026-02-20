@@ -15,20 +15,29 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
+  gap: 1rem;
+}
+
+.profile-header,
+.profile {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  max-width: 760px;
+  width: 100%;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  border: 2px solid rgba(0, 0, 0, 0.25);
-  border-radius: 1rem;
   padding: 1rem;
-  margin-bottom: 1rem;
-  max-width: 600px;
-  width: 100%;
+}
+
+.top-header {
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .avatar {
@@ -48,79 +57,116 @@ body {
 .symbol {
   margin: 0;
   font-size: 1.2rem;
-  color: #fff;
 }
 
-.profile-header h1 {
-  font-size: 1.5rem;
+.profile-header h1,
+.profile-header h2,
+.profile h2 {
   margin: 0;
 }
 
 .profile {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  border: 2px solid rgba(0, 0, 0, 0.25);
-  border-radius: 1rem;
   padding: 1rem;
-  max-width: 600px;
-  width: 100%;
   text-align: center;
 }
 
-.projects {
-  margin-top: 1rem;
+.tile-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+
+.tile-wide {
+  grid-column: span 2;
+}
+
+.tile-tall {
+  grid-row: span 2;
+}
+.project,
+.template-card {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.7rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.35);
   text-align: left;
 }
 
-.project {
-  border-top: 1px solid #888;
-  padding: 0.75rem 0;
+.project h3,
+.template-card h3 {
+  margin: 0 0 0.35rem;
 }
 
-.project h3 {
-  margin: 0 0 0.3rem;
+.project p,
+.template-card p {
+  margin: 0.2rem 0;
+  line-height: 1.3;
 }
 
-.project a {
-  color: #fff;
+.project a,
+.template-meta {
+  color: #dbe7ff;
   text-decoration: underline;
+  font-size: 0.9rem;
 }
 
 .games-box {
-  margin-top: 1rem;
   flex-direction: column;
   text-align: center;
 }
 
 .game-icons {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
+  width: 100%;
 }
 
 .game-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
   object-fit: cover;
   border: 2px solid #333;
+  justify-self: center;
 }
 
-/* Birthday Countdown Box */
-.dob-box {
+.template-note {
+  margin: 0.3rem 0;
+  opacity: 0.85;
+}
+
+.templates-grid .template-card {
+  min-height: 110px;
+}
+
+.presence-inline {
+  margin-left: auto;
   display: flex;
+  gap: 0.8rem;
   align-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.8rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.discord-avatar {
+  width: 52px;
+  height: 52px;
+}
+
+.presence-text h2 {
+  font-size: 1rem;
+}
+
+.presence-text p {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.dob-box {
   justify-content: space-between;
-  max-width: 600px;
-  width: 100%;
-  padding: 1rem;
-  margin-top: 1rem;
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(0, 0, 0, 0.25);
-  border-radius: 1rem;
-  backdrop-filter: blur(12px);
 }
 
 .dob-date {
@@ -142,7 +188,7 @@ body {
 
 .dob-separator {
   width: 2px;
-  height: 100%;
+  align-self: stretch;
   background: #444;
   margin: 0 1rem;
 }
@@ -151,23 +197,20 @@ body {
   text-align: left;
 }
 
-/* === Activities Section (inside user-info) === */
 .activities {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: 0.6rem;
 }
 
-/* activity card like Discord small card */
 .activity-card {
   display: flex;
   align-items: center;
-  background: rgba(0,0,0,0.4);
-  border: 2px solid rgba(0,0,0,0.25);
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.25);
   border-radius: 0.6rem;
   padding: 0.5rem;
-  backdrop-filter: blur(8px);
 }
 
 .activity-card img {
@@ -189,17 +232,15 @@ body {
   opacity: 0.85;
 }
 
-/* custom status style */
 .custom-status {
-  background: rgba(0,0,0,0.4);
-  border: 2px solid rgba(0,0,0,0.25);
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.25);
   border-radius: 0.6rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
   display: inline-block;
 }
 
-/* === Status Dot (placed on avatar) === */
 .avatar-wrapper {
   position: relative;
   display: inline-block;
@@ -209,13 +250,37 @@ body {
   position: absolute;
   bottom: -2px;
   right: -2px;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 3px solid #000; /* outline like Discord */
+  border: 3px solid #000;
 }
 
 .status-online { background: #43b581; }
 .status-idle { background: #faa61a; }
 .status-dnd { background: #f04747; }
 .status-offline { background: #747f8d; }
+
+@media (max-width: 640px) {
+  .presence-inline {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .tile-wide,
+  .tile-tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .dob-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dob-separator {
+    width: 100%;
+    height: 2px;
+    margin: 0.8rem 0;
+  }
+}
