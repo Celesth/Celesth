@@ -1,9 +1,9 @@
 // Birthday Countdown
 const countdown = document.getElementById("dob-countdown");
-const targetDate = new Date(new Date().getFullYear(), 11, 18);
 
 function updateCountdown() {
   const now = new Date();
+  const targetDate = new Date(now.getFullYear(), 11, 18);
   if (now > targetDate) targetDate.setFullYear(now.getFullYear() + 1);
 
   const diff = targetDate - now;
@@ -20,10 +20,10 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 const templateItems = [
-  { title: "Project Tile", body: "Name, summary, stack, and repo/demo links.", meta: "Use for upcoming projects" },
-  { title: "Tool Tile", body: "Small utility concept with one quick objective.", meta: "Use for scripts and bots" },
-  { title: "Blog/Note Tile", body: "Topic, short teaser, and read-more URL.", meta: "Use for future posts" },
-  { title: "Now Playing Tile", body: "Game title, rank/progress, and current status.", meta: "Use for game updates" }
+  { title: "0x01", body: "dhauhdiqd", meta: "daid" },
+  { title: "Tool Tile", body: "god saves queen", meta: "-x2" },
+  { title: "0x02", body: "oh my days", meta: "-1x" },
+  { title: "0x03", body: "-0x", meta: "let template remain tthe same" },
 ];
 
 function renderTemplateTiles() {
@@ -62,10 +62,14 @@ function applyDynamicTiling() {
 // Map Discord presence status to CSS classes
 function getStatusClass(status) {
   switch ((status || "").toLowerCase()) {
-    case "online": return "status-online";
-    case "idle": return "status-idle";
-    case "dnd": return "status-dnd";
-    default: return "status-offline";
+    case "online":
+      return "status-online";
+    case "idle":
+      return "status-idle";
+    case "dnd":
+      return "status-dnd";
+    default:
+      return "status-offline";
   }
 }
 
@@ -76,7 +80,9 @@ function resolveLargeImage(act) {
 
   if (li.startsWith("mp:")) {
     const rest = li.slice(3);
-    return rest.startsWith("/") ? `https://media.discordapp.net${rest}` : `https://media.discordapp.net/${rest}`;
+    return rest.startsWith("/")
+      ? `https://media.discordapp.net${rest}`
+      : `https://media.discordapp.net/${rest}`;
   }
 
   if (act.application_id) {
@@ -88,7 +94,9 @@ function resolveLargeImage(act) {
 
 async function loadDiscordPresence() {
   try {
-    const res = await fetch("https://api.lanyard.rest/v1/users/744471023834890330");
+    const res = await fetch(
+      "https://api.lanyard.rest/v1/users/744471023834890330",
+    );
     const data = await res.json();
     if (!data.success) return;
 
@@ -105,11 +113,13 @@ async function loadDiscordPresence() {
     const statusTextEl = document.getElementById("discord-status");
 
     if (usernameEl) {
-      const display = user?.global_name || user?.display_name || user?.username || "Unknown";
+      const display =
+        user?.global_name || user?.display_name || user?.username || "Unknown";
       usernameEl.textContent = `${display} (@${user.username || "unknown"})`;
     }
     if (statusTextEl) {
-      statusTextEl.textContent = "Status: " + (status || "OFFLINE").toUpperCase();
+      statusTextEl.textContent =
+        "Status: " + (status || "OFFLINE").toUpperCase();
     }
 
     const dot = document.getElementById("discord-status-dot");
@@ -138,7 +148,9 @@ async function loadDiscordPresence() {
         card.className = "activity-card";
 
         const img = document.createElement("img");
-        img.src = resolveLargeImage(act) || "https://cdn.discordapp.com/embed/avatars/0.png";
+        img.src =
+          resolveLargeImage(act) ||
+          "https://cdn.discordapp.com/embed/avatars/0.png";
         img.alt = act.name || "activity";
 
         const info = document.createElement("div");
@@ -162,7 +174,8 @@ async function loadDiscordPresence() {
 
         const metaParts = [];
         if (act.session_id) metaParts.push(`Session: ${act.session_id}`);
-        if (typeof act.type !== "undefined") metaParts.push(`Type: ${act.type}`);
+        if (typeof act.type !== "undefined")
+          metaParts.push(`Type: ${act.type}`);
         if (metaParts.length) {
           const meta = document.createElement("p");
           meta.style.opacity = "0.8";

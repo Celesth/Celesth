@@ -1,6 +1,11 @@
 @font-face {
   font-family: 'Minecraft';
   src: url('font/MinecraftRegular-Bmg3.otf') format('opentype');
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -16,6 +21,7 @@ body {
   align-items: center;
   padding: 1.5rem;
   gap: 1rem;
+  min-height: 100vh;
 }
 
 .profile-header,
@@ -26,6 +32,12 @@ body {
   border-radius: 1rem;
   max-width: 760px;
   width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.profile-header:hover,
+.profile:hover {
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .profile-header {
@@ -92,6 +104,14 @@ body {
   padding: 0.75rem;
   background: rgba(0, 0, 0, 0.35);
   text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.project:hover,
+.template-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .project h3,
@@ -110,6 +130,11 @@ body {
   color: #dbe7ff;
   text-decoration: underline;
   font-size: 0.9rem;
+  transition: color 0.15s ease;
+}
+
+.project a:hover {
+  color: #fff;
 }
 
 .games-box {
@@ -128,6 +153,13 @@ body {
   object-fit: cover;
   border: 2px solid #333;
   justify-self: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-icon:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .template-note {
@@ -211,6 +243,12 @@ body {
   border: 2px solid rgba(0, 0, 0, 0.25);
   border-radius: 0.6rem;
   padding: 0.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateX(4px);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .activity-card img {
@@ -261,6 +299,15 @@ body {
 .status-dnd { background: #f04747; }
 .status-offline { background: #747f8d; }
 
+.status-online {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(67, 181, 129, 0); }
+}
+
 @media (max-width: 640px) {
   .presence-inline {
     margin-left: 0;
@@ -282,5 +329,38 @@ body {
     width: 100%;
     height: 2px;
     margin: 0.8rem 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-header,
+.profile {
+  animation: fadeInUp 0.4s ease both;
+}
+
+.profile:nth-child(2) { animation-delay: 0.05s; }
+.profile:nth-child(3) { animation-delay: 0.1s; }
+.profile:nth-child(4) { animation-delay: 0.15s; }
+.profile:nth-child(5) { animation-delay: 0.2s; }
+.profile:nth-child(6) { animation-delay: 0.25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
