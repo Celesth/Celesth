@@ -16,10 +16,8 @@ html {
 
 body {
   font-family: 'Minecraft', system-ui, -apple-system, sans-serif;
-  color: #e0e0e0;
+  color: #eee;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
   padding: 2rem 1rem;
   background: linear-gradient(135deg, #050505 0%, #111 40%, #1a1a1a 70%, #0a0a0a 100%);
   background-size: cover;
@@ -33,35 +31,35 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 0;
   pointer-events: none;
 }
 
 .container {
   position: relative;
-  z-index: 2;
-  max-width: 720px;
+  z-index: 1;
+  max-width: 680px;
   width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeUp 0.6s ease both;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: border-color 0.3s ease;
+  animation: fadeUp 0.5s ease both;
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .top-header {
@@ -75,7 +73,7 @@ body::before {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .avatar-ring {
@@ -85,33 +83,31 @@ body::before {
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
 }
 
 .user-info h1 {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 400;
-  margin: 0;
-  letter-spacing: 0.5px;
 }
 
 .pronouns {
   font-size: 0.85rem;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .discord-presence {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.7rem;
   background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 1rem;
-  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.9rem;
+  padding: 0.45rem 0.7rem;
 }
 
 .avatar-wrapper {
@@ -121,8 +117,8 @@ body::before {
 }
 
 .discord-avatar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
@@ -132,8 +128,8 @@ body::before {
   position: absolute;
   bottom: -1px;
   right: -1px;
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   border: 2px solid #0a0a0a;
 }
@@ -153,21 +149,20 @@ body::before {
 }
 
 .presence-text h2 {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 400;
-  margin: 0;
 }
 
 .presence-text p {
-  font-size: 0.75rem;
-  opacity: 0.5;
+  font-size: 0.72rem;
+  opacity: 0.55;
   margin: 2px 0 0;
 }
 
 .section-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 400;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -178,38 +173,37 @@ body::before {
 }
 
 .section-subtitle {
-  opacity: 0.4;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  opacity: 0.45;
+  margin-bottom: 0.85rem;
+  font-size: 0.88rem;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.7rem;
 }
 
 .project-card {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 0.9rem;
-  padding: 1rem;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.85rem;
+  padding: 0.9rem;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04);
 }
 
 .project-card h3 {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -217,90 +211,83 @@ body::before {
 }
 
 .project-card p {
-  font-size: 0.82rem;
-  opacity: 0.6;
+  font-size: 0.8rem;
+  opacity: 0.65;
   line-height: 1.4;
 }
 
 .card-link {
   margin-top: auto;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #bbb;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-
-.project-card:hover .card-link {
-  opacity: 1;
 }
 
 .badge {
-  font-size: 0.65rem;
-  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.62rem;
+  background: rgba(255, 255, 255, 0.07);
   padding: 2px 6px;
   border-radius: 4px;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.7rem;
 }
 
 .game-icon {
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 1rem;
+  border-radius: 0.85rem;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  filter: grayscale(0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  filter: grayscale(0.4);
 }
 
 .game-icon:hover {
-  transform: scale(1.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
+  transform: scale(1.07);
+  border-color: rgba(255, 255, 255, 0.25);
   filter: grayscale(0);
 }
 
 .templates-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.7rem;
 }
 
 .template-card {
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 0.9rem;
-  padding: 1rem;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.85rem;
+  padding: 0.9rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .template-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .template-card h3 {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 400;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .template-card p {
-  font-size: 0.82rem;
-  opacity: 0.6;
+  font-size: 0.8rem;
+  opacity: 0.65;
 }
 
 .template-meta {
   display: block;
   margin-top: 0.4rem;
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   color: #bbb;
-  opacity: 0.6;
+  opacity: 0.65;
 }
 
 .activities {
@@ -312,45 +299,44 @@ body::before {
 .activity-card {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 0.9rem;
-  padding: 0.75rem;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  gap: 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.85rem;
+  padding: 0.7rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .activity-card:hover {
-  transform: translateX(4px);
-  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(3px);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .activity-card img {
-  width: 48px;
-  height: 48px;
-  border-radius: 0.6rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 0.55rem;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .activity-info h3 {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 400;
-  margin: 0;
 }
 
 .activity-info p {
-  font-size: 0.78rem;
-  opacity: 0.6;
+  font-size: 0.76rem;
+  opacity: 0.65;
   margin: 2px 0 0;
 }
 
 .custom-status {
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 0.7rem;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.83rem;
   display: inline-block;
   align-self: flex-start;
 }
@@ -358,7 +344,7 @@ body::before {
 .dob-card {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .dob-date {
@@ -366,34 +352,34 @@ body::before {
 }
 
 .dob-date h2 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 400;
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .dob-date h2 span {
-  font-size: 1rem;
-  opacity: 0.4;
+  font-size: 0.95rem;
+  opacity: 0.5;
 }
 
 .dob-divider {
   width: 2px;
   align-self: stretch;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.07);
   flex-shrink: 0;
 }
 
 .dob-info h3 {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 400;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .dob-info p {
-  font-size: 0.85rem;
-  opacity: 0.6;
+  font-size: 0.82rem;
+  opacity: 0.65;
 }
 
 .tile-wide {
@@ -403,7 +389,7 @@ body::before {
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -418,23 +404,24 @@ body::before {
 .glass-card:nth-child(5) { animation-delay: 0.25s; }
 .glass-card:nth-child(6) { animation-delay: 0.3s; }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   body {
-    padding: 1rem 0.75rem;
+    padding: 0.75rem 0.65rem;
   }
 
   .glass-card {
-    padding: 1.125rem;
-    border-radius: 1rem;
+    padding: 1rem;
+    border-radius: 0.9rem;
   }
 
   .top-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .discord-presence {
     width: 100%;
+    justify-content: center;
   }
 
   .projects-grid {
@@ -452,7 +439,7 @@ body::before {
   .dob-card {
     flex-direction: column;
     text-align: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
   }
 
   .dob-divider {
@@ -467,6 +454,12 @@ body::before {
 
   .tile-wide {
     grid-column: span 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
