@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-// ─── 3D Particle Starfield ───────────────────────────────────────────────────
+// ─── 3D-Particle Starfield ───────────────────────────────────────────────────
 
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
