@@ -16,12 +16,12 @@ html {
 
 body {
   font-family: 'Minecraft', system-ui, -apple-system, sans-serif;
-  color: #e8e8e8;
+  color: #e0e0e0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 2rem 1rem;
-  background: #0a0a0f;
+  background: linear-gradient(135deg, #050505 0%, #111 40%, #1a1a1a 70%, #0a0a0a 100%);
   line-height: 1.5;
 }
 
@@ -46,10 +46,10 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 1.25rem;
   padding: 1.5rem;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -58,7 +58,7 @@ body {
 
 .glass-card:hover {
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.03);
 }
 
 .top-header {
@@ -78,7 +78,7 @@ body {
 .avatar-ring {
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  background: linear-gradient(135deg, #666, #ccc);
 }
 
 .avatar {
@@ -98,15 +98,15 @@ body {
 
 .pronouns {
   font-size: 0.85rem;
-  opacity: 0.8;
+  opacity: 0.5;
 }
 
 .discord-presence {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
   padding: 0.5rem 0.75rem;
 }
@@ -132,13 +132,13 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid #0a0a0f;
+  border: 2px solid #0a0a0a;
 }
 
 .status-online { background: #43b581; }
 .status-idle { background: #faa61a; }
 .status-dnd { background: #f04747; }
-.status-offline { background: #747f8d; }
+.status-offline { background: #555; }
 
 .status-online {
   animation: pulse 2s ease-in-out infinite;
@@ -157,7 +157,7 @@ body {
 
 .presence-text p {
   font-size: 0.75rem;
-  opacity: 0.7;
+  opacity: 0.5;
   margin: 2px 0 0;
 }
 
@@ -171,11 +171,11 @@ body {
 }
 
 .accent {
-  color: #a78bfa;
+  color: #aaa;
 }
 
 .section-subtitle {
-  opacity: 0.6;
+  opacity: 0.4;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
@@ -191,7 +191,7 @@ body {
   flex-direction: column;
   gap: 0.4rem;
   background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.9rem;
   padding: 1rem;
   text-decoration: none;
@@ -201,8 +201,8 @@ body {
 
 .project-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(167, 139, 250, 0.3);
-  box-shadow: 0 4px 20px rgba(167, 139, 250, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.04);
 }
 
 .project-card h3 {
@@ -215,15 +215,15 @@ body {
 
 .project-card p {
   font-size: 0.82rem;
-  opacity: 0.7;
+  opacity: 0.6;
   line-height: 1.4;
 }
 
 .card-link {
   margin-top: auto;
   font-size: 0.8rem;
-  color: #a78bfa;
-  opacity: 0.8;
+  color: #bbb;
+  opacity: 0.7;
   transition: opacity 0.2s;
 }
 
@@ -233,10 +233,10 @@ body {
 
 .badge {
   font-size: 0.65rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   padding: 2px 6px;
   border-radius: 4px;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .games-grid {
@@ -250,14 +250,16 @@ body {
   aspect-ratio: 1;
   border-radius: 1rem;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  filter: grayscale(0.3);
 }
 
 .game-icon:hover {
   transform: scale(1.08);
-  border-color: rgba(167, 139, 250, 0.4);
-  box-shadow: 0 4px 16px rgba(167, 139, 250, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
+  filter: grayscale(0);
 }
 
 .templates-grid {
@@ -268,7 +270,7 @@ body {
 
 .template-card {
   background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.9rem;
   padding: 1rem;
   transition: transform 0.25s ease, border-color 0.25s ease;
@@ -276,7 +278,7 @@ body {
 
 .template-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .template-card h3 {
@@ -287,15 +289,15 @@ body {
 
 .template-card p {
   font-size: 0.82rem;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .template-meta {
   display: block;
   margin-top: 0.4rem;
   font-size: 0.75rem;
-  color: #a78bfa;
-  opacity: 0.7;
+  color: #bbb;
+  opacity: 0.6;
 }
 
 .activities {
@@ -309,7 +311,7 @@ body {
   align-items: center;
   gap: 0.75rem;
   background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.9rem;
   padding: 0.75rem;
   transition: transform 0.25s ease, border-color 0.25s ease;
@@ -317,7 +319,7 @@ body {
 
 .activity-card:hover {
   transform: translateX(4px);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .activity-card img {
@@ -336,7 +338,7 @@ body {
 
 .activity-info p {
   font-size: 0.78rem;
-  opacity: 0.7;
+  opacity: 0.6;
   margin: 2px 0 0;
 }
 
@@ -370,13 +372,13 @@ body {
 
 .dob-date h2 span {
   font-size: 1rem;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .dob-divider {
   width: 2px;
   align-self: stretch;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -388,7 +390,7 @@ body {
 
 .dob-info p {
   font-size: 0.85rem;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .tile-wide {

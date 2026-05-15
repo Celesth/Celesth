@@ -1,86 +1,3 @@
-import * as THREE from 'three';
-
-// ─── 3D-Particle Starfield ───────────────────────────────────────────────────
-
-const canvas = document.getElementById('bg-canvas');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  alpha: true,
-  antialias: true,
-});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-const particlesGeometry = new THREE.BufferGeometry();
-const count = 2000;
-const positions = new Float32Array(count * 3);
-const colors = new Float32Array(count * 3);
-
-const palette = [
-  [0.49, 0.27, 0.93], // purple
-  [0.58, 0.44, 0.94],
-  [0.93, 0.27, 0.60], // pink
-  [0.65, 0.85, 0.98], // blue
-];
-
-for (let i = 0; i < count * 3; i += 3) {
-  positions[i] = (Math.random() - 0.5) * 30;
-  positions[i + 1] = (Math.random() - 0.5) * 30;
-  positions[i + 2] = (Math.random() - 0.5) * 30;
-
-  const c = palette[Math.floor(Math.random() * palette.length)];
-  colors[i] = c[0];
-  colors[i + 1] = c[1];
-  colors[i + 2] = c[2];
-}
-
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.035,
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.8,
-  sizeAttenuation: true,
-  blending: THREE.AdditiveBlending,
-});
-
-const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
-
-camera.position.z = 5;
-
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (e) => {
-  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-});
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  particles.rotation.y += 0.0003;
-  particles.rotation.x += 0.0001;
-
-  particles.rotation.y += (mouseX * 0.02 - particles.rotation.y) * 0.005;
-  particles.rotation.x += (mouseY * 0.02 - particles.rotation.x) * 0.005;
-
-  renderer.render(scene, camera);
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
 // ─── Birthday Countdown ──────────────────────────────────────────────────────
 
 const countdownEl = document.getElementById('dob-countdown');
@@ -165,6 +82,7 @@ function resolveLargeImage(act) {
 async function loadDiscordPresence() {
   try {
     const res = await fetch('https://api.lanyard.rest/v1/users/744471023834890330');
+    if (!res.ok) return;
     const data = await res.json();
     if (!data.success) return;
 
@@ -217,6 +135,7 @@ async function loadDiscordPresence() {
         const img = document.createElement('img');
         img.src = resolveLargeImage(act) || 'https://cdn.discordapp.com/embed/avatars/0.png';
         img.alt = act.name || 'activity';
+        img.loading = 'lazy';
 
         const info = document.createElement('div');
         info.className = 'activity-info';
@@ -237,17 +156,6 @@ async function loadDiscordPresence() {
           info.appendChild(s);
         }
 
-        const parts = [];
-        if (act.session_id) parts.push(`Session: ${act.session_id}`);
-        if (typeof act.type !== 'undefined') parts.push(`Type: ${act.type}`);
-        if (parts.length) {
-          const m = document.createElement('p');
-          m.style.opacity = '0.8';
-          m.style.fontSize = '0.75rem';
-          m.textContent = parts.join(' • ');
-          info.appendChild(m);
-        }
-
         card.appendChild(img);
         card.appendChild(info);
         container.appendChild(card);
@@ -260,3 +168,83 @@ async function loadDiscordPresence() {
 
 loadDiscordPresence();
 setInterval(loadDiscordPresence, 30000);
+
+// ─── 3D Particle Starfield (non-critical, loads safely) ──────────────────────
+
+async function initStarfield() {
+  let THREE;
+  try {
+    THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+  } catch {
+    const canvas = document.getElementById('bg-canvas');
+    if (canvas) canvas.remove();
+    return;
+  }
+
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true,
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const count = 1500;
+  const positions = new Float32Array(count * 3);
+  const alphas = new Float32Array(count);
+
+  for (let i = 0; i < count * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 30;
+    positions[i + 1] = (Math.random() - 0.5) * 30;
+    positions[i + 2] = (Math.random() - 0.5) * 30;
+    alphas[i / 3] = 0.2 + Math.random() * 0.8;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
+
+  const mat = new THREE.PointsMaterial({
+    size: 0.04,
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.6,
+    sizeAttenuation: true,
+  });
+
+  const particles = new THREE.Points(geo, mat);
+  scene.add(particles);
+  camera.position.z = 5;
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    particles.rotation.y += 0.0002;
+    particles.rotation.x += 0.00005;
+    particles.rotation.y += (mouseX * 0.02 - particles.rotation.y) * 0.003;
+    particles.rotation.x += (mouseY * 0.02 - particles.rotation.x) * 0.003;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
+initStarfield();
