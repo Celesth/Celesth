@@ -20,95 +20,107 @@
   <link rel="preconnect" href="https://cdn.discordapp.com" />
   <link rel="preconnect" href="https://media.discordapp.net" />
   <link rel="preconnect" href="https://api.lanyard.rest" />
-  <link rel="preconnect" href="https://media1.tenor.com" />
   <link rel="dns-prefetch" href="https://cdn.discordapp.com" />
   <link rel="dns-prefetch" href="https://media.discordapp.net" />
   <link rel="dns-prefetch" href="https://api.lanyard.rest" />
 
   <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
 </head>
 <body>
-  <div class="profile-header top-header">
-    <img src="Assets/Kenl on TikTok.jpeg" alt="Your Avatar" class="avatar" />
+  <canvas id="bg-canvas"></canvas>
 
-    <div class="user-info">
-      <h2 class="symbol">celesth</h2>
-      <h1>he/him ✦ 愛</h1>
-    </div>
-
-    <div class="presence-inline">
-      <div class="avatar-wrapper">
-        <img id="discord-avatar" src="" alt="Discord Avatar" class="avatar discord-avatar" />
-        <div id="discord-status-dot" class="status-dot status-offline"></div>
+  <main class="container">
+    <header class="glass-card top-header">
+      <div class="header-left">
+        <div class="avatar-ring">
+          <img src="Assets/Kenl on TikTok.jpeg" alt="avatar" class="avatar" />
+        </div>
+        <div class="user-info">
+          <h1 class="username">celesth</h1>
+          <span class="pronouns">he/him ✦ 愛</span>
+        </div>
       </div>
-      <div class="presence-text">
-        <h2 id="discord-username">Loading...</h2>
-        <p id="discord-status">Status: Loading...</p>
+
+      <div class="discord-presence">
+        <div class="avatar-wrapper">
+          <img id="discord-avatar" src="" alt="Discord Avatar" class="discord-avatar" />
+          <div id="discord-status-dot" class="status-dot status-offline"></div>
+        </div>
+        <div class="presence-text">
+          <h2 id="discord-username">Loading...</h2>
+          <p id="discord-status">Status: Loading...</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <div class="profile">
-    <h2>My Projects</h2>
-    <div class="projects tile-grid" id="projects-grid">
-      <div class="project">
-        <h3>Modules</h3>
-        <p>A Collection Of Scripts I've Used Or Made.</p>
-        <a href="https://github.com/Celesth/Modules.git">View on GitHub</a>
+    <section class="glass-card">
+      <h2 class="section-title"><span class="accent">✦</span> Projects</h2>
+      <div class="projects-grid" id="projects-grid">
+        <a href="https://github.com/Celesth/Modules.git" class="project-card" target="_blank" rel="noopener">
+          <h3>Modules</h3>
+          <p>A Collection Of Scripts I've Used Or Made.</p>
+          <span class="card-link">View on GitHub →</span>
+        </a>
+        <a href="https://github.com/Celesth/Roblox-Username-Sniper.git" class="project-card" target="_blank" rel="noopener">
+          <h3>RUSniper</h3>
+          <p>Python Script To Snipe/Generate Names :3</p>
+          <span class="card-link">View on GitHub →</span>
+        </a>
+        <a href="https://github.com/Celesth/Stellarium.git" class="project-card" target="_blank" rel="noopener">
+          <h3>Stellarium</h3>
+          <p>A Project Mainly Focused On Useful, Trolling etc..</p>
+          <span class="card-link">View on GitHub →</span>
+        </a>
+        <a href="https://github.com/Celesth/Varveil.git" class="project-card archived" target="_blank" rel="noopener">
+          <h3>Varveil <span class="badge">Archived</span></h3>
+          <p>Script to Download Video From Various Sources Using yt-dlp.</p>
+          <span class="card-link">View on GitHub →</span>
+        </a>
       </div>
-      <div class="project">
-        <h3>RUSniper</h3>
-        <p>Python Script To Snipe/Generate Names :3</p>
-        <a href="https://github.com/Celesth/Roblox-Username-Sniper.git">View on GitHub</a>
+    </section>
+
+    <section class="glass-card">
+      <h2 class="section-title"><span class="accent">✦</span> Games I Play</h2>
+      <div class="games-grid">
+        <img src="Assets/rblx.jpg" alt="Roblox" class="game-icon" loading="lazy" />
+        <img src="Assets/wuwa.webp" alt="Wuthering Waves" class="game-icon" loading="lazy" />
+        <img src="Assets/images (7).jpeg" alt="Punishing Grey Raven" class="game-icon" loading="lazy" />
+        <img src="Assets/images (8).jpeg" alt="Hollow Knight" class="game-icon" loading="lazy" />
+        <img src="Assets/Osu!_Logo_2016.svg.png" alt="Osu" class="game-icon" loading="lazy" />
+        <img src="Assets/strinova.jpeg" alt="Strinova" class="game-icon" loading="lazy" />
       </div>
-      <div class="project">
-        <h3>Stellarium</h3>
-        <p>A Project Mainly Focused On Useful, Trolling etc..</p>
-        <a href="https://github.com/Celesth/Stellarium.git">View on GitHub</a>
+    </section>
+
+    <section class="glass-card">
+      <h2 class="section-title"><span class="accent">✦</span> Buns</h2>
+      <p class="section-subtitle">buns buns Buns</p>
+      <div id="template-grid" class="templates-grid"></div>
+    </section>
+
+    <section class="glass-card">
+      <h2 class="section-title"><span class="accent">✦</span> Current Activities</h2>
+      <div id="activities-container" class="activities"></div>
+    </section>
+
+    <section class="glass-card dob-card">
+      <div class="dob-date">
+        <h2>Dec <span>18th</span></h2>
       </div>
-      <div class="project">
-        <h3>Varveil[Archived]</h3>
-        <p>Script to Download Video From Various Sources Using yt-dlp.</p>
-        <a href="https://github.com/Celesth/Varveil.git">View on GitHub</a>
+      <div class="dob-divider"></div>
+      <div class="dob-info">
+        <h3>Next Birthday</h3>
+        <p id="dob-countdown">Loading...</p>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <div class="profile-header games-box">
-    <h2>Games I Play/Played</h2>
-    <div class="game-icons tile-grid" id="games-grid">
-      <img src="Assets/rblx.jpg" alt="Roblox" class="game-icon" loading="lazy" />
-      <img src="Assets/wuwa.webp" alt="Wuthering Waves" class="game-icon" loading="lazy" />
-      <img src="Assets/images (7).jpeg" alt="Punishing Grey Raven" class="game-icon" loading="lazy" />
-      <img src="Assets/images (8).jpeg" alt="Hollow Knight" class="game-icon" loading="lazy" />
-      <img src="Assets/Osu!_Logo_2016.svg.png" alt="Osu" class="game-icon" loading="lazy" />
-      <img src="Assets/strinova.jpeg" alt="Strinova[Early Access]" class="game-icon" loading="lazy" />
-    </div>
-  </div>
-
-  <div class="profile template-box">
-    <h2>Buns</h2>
-    <p class="template-note">buns buns Buns</p>
-    <div id="template-grid" class="tile-grid templates-grid"></div>
-  </div>
-
-  <div class="profile-header presence-box">
-    <h2>Current Activities</h2>
-    <div id="activities-container" class="activities"></div>
-  </div>
-
-  <div class="profile-header dob-box">
-    <div class="dob-date">
-      <h1>Dec</h1>
-      <p>18th</p>
-    </div>
-    <div class="dob-separator"></div>
-    <div class="dob-info">
-      <h2>Next Birthday</h2>
-      <p id="dob-countdown">Loading...</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

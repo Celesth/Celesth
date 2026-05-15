@@ -1,86 +1,156 @@
-// Birthday Countdown
-const countdown = document.getElementById("dob-countdown");
+import * as THREE from 'three';
+
+// ─── 3D Particle Starfield ───────────────────────────────────────────────────
+
+const canvas = document.getElementById('bg-canvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  alpha: true,
+  antialias: true,
+});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+const particlesGeometry = new THREE.BufferGeometry();
+const count = 2000;
+const positions = new Float32Array(count * 3);
+const colors = new Float32Array(count * 3);
+
+const palette = [
+  [0.49, 0.27, 0.93], // purple
+  [0.58, 0.44, 0.94],
+  [0.93, 0.27, 0.60], // pink
+  [0.65, 0.85, 0.98], // blue
+];
+
+for (let i = 0; i < count * 3; i += 3) {
+  positions[i] = (Math.random() - 0.5) * 30;
+  positions[i + 1] = (Math.random() - 0.5) * 30;
+  positions[i + 2] = (Math.random() - 0.5) * 30;
+
+  const c = palette[Math.floor(Math.random() * palette.length)];
+  colors[i] = c[0];
+  colors[i + 1] = c[1];
+  colors[i + 2] = c[2];
+}
+
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+const particlesMaterial = new THREE.PointsMaterial({
+  size: 0.035,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.8,
+  sizeAttenuation: true,
+  blending: THREE.AdditiveBlending,
+});
+
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
+
+camera.position.z = 5;
+
+let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  particles.rotation.y += 0.0003;
+  particles.rotation.x += 0.0001;
+
+  particles.rotation.y += (mouseX * 0.02 - particles.rotation.y) * 0.005;
+  particles.rotation.x += (mouseY * 0.02 - particles.rotation.x) * 0.005;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ─── Birthday Countdown ──────────────────────────────────────────────────────
+
+const countdownEl = document.getElementById('dob-countdown');
 
 function updateCountdown() {
   const now = new Date();
-  const targetDate = new Date(now.getFullYear(), 11, 18);
-  if (now > targetDate) targetDate.setFullYear(now.getFullYear() + 1);
+  const target = new Date(now.getFullYear(), 11, 18);
+  if (now > target) target.setFullYear(now.getFullYear() + 1);
 
-  const diff = targetDate - now;
+  const diff = target - now;
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
+  const mins = Math.floor((diff / (1000 * 60)) % 60);
+  const secs = Math.floor((diff / 1000) % 60);
 
-  if (countdown) {
-    countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s until my birthday!`;
+  if (countdownEl) {
+    countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s until my birthday!`;
   }
 }
+
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// ─── Template Tiles ──────────────────────────────────────────────────────────
+
 const templateItems = [
-  { title: "0x01", body: "dhauhdiqd", meta: "daid" },
-  { title: "Tool Tile", body: "god saves queen", meta: "-x2" },
-  { title: "0x02", body: "oh my days", meta: "-1x" },
-  { title: "0x03", body: "-0x", meta: "let template remain tthe same" },
+  { title: '0x01', body: 'dhauhdiqd', meta: 'daid' },
+  { title: 'Tool Tile', body: 'god saves queen', meta: '-x2' },
+  { title: '0x02', body: 'oh my days', meta: '-1x' },
+  { title: '0x03', body: '-0x', meta: 'let template remain the same' },
 ];
 
 function renderTemplateTiles() {
-  const templateGrid = document.getElementById("template-grid");
-  if (!templateGrid) return;
+  const grid = document.getElementById('template-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-  templateGrid.innerHTML = "";
-  templateItems.forEach((item, index) => {
-    const card = document.createElement("article");
-    card.className = "template-card";
-
-    if (index % 3 === 0) card.classList.add("tile-wide");
-
+  templateItems.forEach((item, i) => {
+    const card = document.createElement('article');
+    card.className = 'template-card' + (i % 3 === 0 ? ' tile-wide' : '');
     card.innerHTML = `
       <h3>${item.title}</h3>
       <p>${item.body}</p>
       <span class="template-meta">${item.meta}</span>
     `;
-
-    templateGrid.appendChild(card);
+    grid.appendChild(card);
   });
 }
 
-function applyDynamicTiling() {
-  document.querySelectorAll(".tile-grid").forEach((grid) => {
-    [...grid.children].forEach((tile) => {
-      const textSize = tile.textContent.trim().length;
-      tile.classList.remove("tile-wide", "tile-tall");
+renderTemplateTiles();
 
-      if (textSize > 80) tile.classList.add("tile-wide");
-      if (textSize > 120) tile.classList.add("tile-tall");
-    });
-  });
-}
+// ─── Discord Presence ────────────────────────────────────────────────────────
 
-// Map Discord presence status to CSS classes
 function getStatusClass(status) {
-  switch ((status || "").toLowerCase()) {
-    case "online":
-      return "status-online";
-    case "idle":
-      return "status-idle";
-    case "dnd":
-      return "status-dnd";
-    default:
-      return "status-offline";
+  switch ((status || '').toLowerCase()) {
+    case 'online':  return 'status-online';
+    case 'idle':    return 'status-idle';
+    case 'dnd':     return 'status-dnd';
+    default:        return 'status-offline';
   }
 }
 
 function resolveLargeImage(act) {
   const li = act?.assets?.large_image;
   if (!li) return null;
-  if (li.startsWith("http://") || li.startsWith("https://")) return li;
+  if (li.startsWith('http://') || li.startsWith('https://')) return li;
 
-  if (li.startsWith("mp:")) {
+  if (li.startsWith('mp:')) {
     const rest = li.slice(3);
-    return rest.startsWith("/")
+    return rest.startsWith('/')
       ? `https://media.discordapp.net${rest}`
       : `https://media.discordapp.net/${rest}`;
   }
@@ -94,9 +164,7 @@ function resolveLargeImage(act) {
 
 async function loadDiscordPresence() {
   try {
-    const res = await fetch(
-      "https://api.lanyard.rest/v1/users/744471023834890330",
-    );
+    const res = await fetch('https://api.lanyard.rest/v1/users/744471023834890330');
     const data = await res.json();
     if (!data.success) return;
 
@@ -104,84 +172,80 @@ async function loadDiscordPresence() {
     const status = data.data.discord_status;
     const activities = data.data.activities || [];
 
-    const avatarEl = document.getElementById("discord-avatar");
-    if (avatarEl && user && user.id && user.avatar) {
+    const avatarEl = document.getElementById('discord-avatar');
+    if (avatarEl && user?.id && user?.avatar) {
       avatarEl.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
     }
 
-    const usernameEl = document.getElementById("discord-username");
-    const statusTextEl = document.getElementById("discord-status");
+    const usernameEl = document.getElementById('discord-username');
+    const statusTextEl = document.getElementById('discord-status');
 
     if (usernameEl) {
-      const display =
-        user?.global_name || user?.display_name || user?.username || "Unknown";
-      usernameEl.textContent = `${display} (@${user.username || "unknown"})`;
+      const display = user?.global_name || user?.display_name || user?.username || 'Unknown';
+      usernameEl.textContent = `${display} (@${user?.username || 'unknown'})`;
     }
+
     if (statusTextEl) {
-      statusTextEl.textContent =
-        "Status: " + (status || "OFFLINE").toUpperCase();
+      statusTextEl.textContent = `Status: ${(status || 'OFFLINE').toUpperCase()}`;
     }
 
-    const dot = document.getElementById("discord-status-dot");
-    if (dot) dot.className = "status-dot " + getStatusClass(status);
+    const dot = document.getElementById('discord-status-dot');
+    if (dot) dot.className = 'status-dot ' + getStatusClass(status);
 
-    const container = document.getElementById("activities-container");
+    const container = document.getElementById('activities-container');
     if (!container) return;
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     if (activities.length === 0) {
-      const p = document.createElement("p");
-      p.className = "custom-status";
-      p.textContent = "No current activity";
+      const p = document.createElement('p');
+      p.className = 'custom-status';
+      p.textContent = 'No current activity';
       container.appendChild(p);
     } else {
       activities.forEach((act) => {
         if (act.type === 4) {
-          const custom = document.createElement("div");
-          custom.className = "custom-status";
-          custom.textContent = act.state || "";
+          const custom = document.createElement('div');
+          custom.className = 'custom-status';
+          custom.textContent = act.state || '';
           container.appendChild(custom);
           return;
         }
 
-        const card = document.createElement("div");
-        card.className = "activity-card";
+        const card = document.createElement('div');
+        card.className = 'activity-card';
 
-        const img = document.createElement("img");
-        img.src =
-          resolveLargeImage(act) ||
-          "https://cdn.discordapp.com/embed/avatars/0.png";
-        img.alt = act.name || "activity";
+        const img = document.createElement('img');
+        img.src = resolveLargeImage(act) || 'https://cdn.discordapp.com/embed/avatars/0.png';
+        img.alt = act.name || 'activity';
 
-        const info = document.createElement("div");
-        info.className = "activity-info";
+        const info = document.createElement('div');
+        info.className = 'activity-info';
 
-        const title = document.createElement("h3");
-        title.textContent = act.name || "Unknown";
+        const title = document.createElement('h3');
+        title.textContent = act.name || 'Unknown';
         info.appendChild(title);
 
         if (act.details) {
-          const d = document.createElement("p");
+          const d = document.createElement('p');
           d.textContent = act.details;
           info.appendChild(d);
         }
 
         if (act.state) {
-          const s = document.createElement("p");
+          const s = document.createElement('p');
           s.textContent = act.state;
           info.appendChild(s);
         }
 
-        const metaParts = [];
-        if (act.session_id) metaParts.push(`Session: ${act.session_id}`);
-        if (typeof act.type !== "undefined")
-          metaParts.push(`Type: ${act.type}`);
-        if (metaParts.length) {
-          const meta = document.createElement("p");
-          meta.style.opacity = "0.8";
-          meta.style.fontSize = "0.75rem";
-          meta.textContent = metaParts.join(" • ");
-          info.appendChild(meta);
+        const parts = [];
+        if (act.session_id) parts.push(`Session: ${act.session_id}`);
+        if (typeof act.type !== 'undefined') parts.push(`Type: ${act.type}`);
+        if (parts.length) {
+          const m = document.createElement('p');
+          m.style.opacity = '0.8';
+          m.style.fontSize = '0.75rem';
+          m.textContent = parts.join(' • ');
+          info.appendChild(m);
         }
 
         card.appendChild(img);
@@ -189,15 +253,10 @@ async function loadDiscordPresence() {
         container.appendChild(card);
       });
     }
-
-    applyDynamicTiling();
   } catch (e) {
-    console.error("Failed to load Discord presence", e);
+    console.error('Failed to load Discord presence', e);
   }
 }
 
-renderTemplateTiles();
-applyDynamicTiling();
 loadDiscordPresence();
 setInterval(loadDiscordPresence, 30000);
-window.addEventListener("resize", applyDynamicTiling);
