@@ -1,3 +1,15 @@
+// ─── Background Image (random bg*.png from /Assets/s_source/) ───────────────
+
+(function setBg() {
+  const files = ['bg1.png', 'bg2.png', 'bg3.png'];
+  const pick = files[Math.floor(Math.random() * files.length)];
+  const img = new Image();
+  img.onload = () => {
+    document.body.style.backgroundImage = `url(Assets/s_source/${pick})`;
+  };
+  img.src = `Assets/s_source/${pick}`;
+})();
+
 // ─── Birthday Countdown ──────────────────────────────────────────────────────
 
 const countdownEl = document.getElementById('dob-countdown');
@@ -168,83 +180,3 @@ async function loadDiscordPresence() {
 
 loadDiscordPresence();
 setInterval(loadDiscordPresence, 30000);
-
-// ─── 3D Particle Starfield (non-critical, loads safely) ──────────────────────
-
-async function initStarfield() {
-  let THREE;
-  try {
-    THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
-  } catch {
-    const canvas = document.getElementById('bg-canvas');
-    if (canvas) canvas.remove();
-    return;
-  }
-
-  const canvas = document.getElementById('bg-canvas');
-  if (!canvas) return;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  const count = 1500;
-  const positions = new Float32Array(count * 3);
-  const alphas = new Float32Array(count);
-
-  for (let i = 0; i < count * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 30;
-    positions[i + 1] = (Math.random() - 0.5) * 30;
-    positions[i + 2] = (Math.random() - 0.5) * 30;
-    alphas[i / 3] = 0.2 + Math.random() * 0.8;
-  }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geo.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.04,
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.6,
-    sizeAttenuation: true,
-  });
-
-  const particles = new THREE.Points(geo, mat);
-  scene.add(particles);
-  camera.position.z = 5;
-
-  let mouseX = 0;
-  let mouseY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  function animate() {
-    requestAnimationFrame(animate);
-    particles.rotation.y += 0.0002;
-    particles.rotation.x += 0.00005;
-    particles.rotation.y += (mouseX * 0.02 - particles.rotation.y) * 0.003;
-    particles.rotation.x += (mouseY * 0.02 - particles.rotation.x) * 0.003;
-    renderer.render(scene, camera);
-  }
-
-  animate();
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-}
-
-initStarfield();

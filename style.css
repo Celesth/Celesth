@@ -22,22 +22,25 @@ body {
   justify-content: center;
   padding: 2rem 1rem;
   background: linear-gradient(135deg, #050505 0%, #111 40%, #1a1a1a 70%, #0a0a0a 100%);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   line-height: 1.5;
+  position: relative;
 }
 
-#bg-canvas {
+body::before {
+  content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
   z-index: 0;
   pointer-events: none;
 }
 
 .container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 720px;
   width: 100%;
   display: flex;
