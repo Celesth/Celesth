@@ -6,6 +6,9 @@
   const img = new Image();
   img.onload = () => {
     document.body.style.backgroundImage = `url(Assets/s_source/${pick})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
   };
   img.src = `Assets/s_source/${pick}`;
 })();
@@ -14,16 +17,17 @@
 
 function initTilt(selector) {
   const cards = document.querySelectorAll(selector);
+  if (!cards.length) return;
   cards.forEach(card => {
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
-      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rx = ((y - cy) / cy) * -6;
+      const ry = ((x - cx) / cx) * 6;
+      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateX(0deg) rotateY(0deg)';
@@ -40,11 +44,11 @@ function updateCountdown() {
   const target = new Date(now.getFullYear(), 11, 18);
   if (now > target) target.setFullYear(now.getFullYear() + 1);
   const diff = target - now;
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const mins = Math.floor((diff / (1000 * 60)) % 60);
-  const secs = Math.floor((diff / 1000) % 60);
-  if (countdownEl) countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s until my birthday!`;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff / 3600000) % 24);
+  const m = Math.floor((diff / 60000) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+  if (countdownEl) countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s until my birthday!`;
 }
 
 setInterval(updateCountdown, 1000);
@@ -90,7 +94,6 @@ const projects = [
 function renderProjects() {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
-  grid.className = 'tilt-grid';
   grid.innerHTML = '';
   projects.forEach(p => {
     const card = document.createElement('a');
@@ -115,7 +118,6 @@ renderProjects();
 const langColors = {
   JavaScript: '#f1e05a', Python: '#3572a5', Lua: '#000080', Luau: '#00A2FF',
   Shell: '#89e051', CSS: '#563d7c', HTML: '#e34c26', TypeScript: '#3178c6',
-  N/A: '#888',
 };
 
 async function loadRepos() {
@@ -124,7 +126,7 @@ async function loadRepos() {
   grid.innerHTML = '<p style="opacity:0.5;font-size:0.85rem">Loading repos...</p>';
   try {
     const res = await fetch('https://api.github.com/users/Celesth/repos?per_page=20&sort=updated');
-    if (!res.ok) throw new Error('Failed');
+    if (!res.ok) throw Error('fetch failed');
     const repos = await res.json();
     grid.innerHTML = '';
     repos.forEach(r => {
@@ -141,14 +143,14 @@ async function loadRepos() {
         <div class="repo-meta">
           <span><span class="repo-lang-dot" style="background:${color}"></span>${lang}</span>
           <span>★ ${r.stargazers_count}</span>
-          ${r.fork ? '<span>🍴 Fork</span>' : ''}
+          ${r.fork ? '<span>Fork</span>' : ''}
         </div>
       `;
       grid.appendChild(card);
     });
     initTilt('.repo-card');
   } catch {
-    grid.innerHTML = '<p style="opacity:0.5;font-size:0.85rem">Failed to load repos</p>';
+    grid.innerHTML = '<p style="opacity:0.5;font-size:0.85rem">Could not load repos</p>';
   }
 }
 
@@ -156,99 +158,99 @@ loadRepos();
 
 // ─── Discord Presence ────────────────────────────────────────────────────────
 
-function getStatusClass(status) {
-  switch ((status || '').toLowerCase()) {
-    case 'online': return 'status-online';
-    case 'idle': return 'status-idle';
-    case 'dnd': return 'status-dnd';
-    default: return 'status-offline';
+function getStatusClass(s) {
+  switch ((s || '').toLowerCase()) {
+    case 'online': return 'online';
+    case 'idle': return 'idle';
+    case 'dnd': return 'dnd';
+    default: return 'offline';
   }
 }
 
-function resolveLargeImage(act) {
+function resolveImage(act) {
   const li = act?.assets?.large_image;
   if (!li) return null;
   if (li.startsWith('http://') || li.startsWith('https://')) return li;
   if (li.startsWith('mp:')) {
-    const rest = li.slice(3);
-    return rest.startsWith('/') ? `https://media.discordapp.net${rest}` : `https://media.discordapp.net/${rest}`;
+    const r = li.slice(3);
+    return (r.startsWith('/') ? 'https://media.discordapp.net' : 'https://media.discordapp.net/') + r;
   }
   if (act.application_id) return `https://cdn.discordapp.com/app-assets/${act.application_id}/${li}.png`;
   return null;
 }
 
-async function loadDiscordPresence() {
+async function loadDiscord() {
   try {
     const res = await fetch('https://api.lanyard.rest/v1/users/744471023834890330');
     if (!res.ok) return;
-    const data = await res.json();
-    if (!data.success) return;
-    const user = data.data.discord_user;
-    const status = data.data.discord_status;
-    const activities = data.data.activities || [];
+    const d = await res.json();
+    if (!d.success) return;
+    const user = d.data.discord_user;
+    const status = d.data.discord_status;
+    const activities = d.data.activities || [];
 
-    const avatarEl = document.getElementById('discord-avatar');
-    if (avatarEl && user?.id && user?.avatar) avatarEl.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+    const av = document.getElementById('discord-avatar');
+    if (av && user?.id && user?.avatar) av.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
 
-    const usernameEl = document.getElementById('discord-username');
-    const statusTextEl = document.getElementById('discord-status');
-    if (usernameEl) {
-      const display = user?.global_name || user?.display_name || user?.username || 'Unknown';
-      usernameEl.textContent = `${display} (@${user?.username || 'unknown'})`;
+    const un = document.getElementById('discord-username');
+    const st = document.getElementById('discord-status');
+    if (un) {
+      const dn = user?.global_name || user?.display_name || user?.username || 'Unknown';
+      un.textContent = `${dn} (@${user?.username || 'unknown'})`;
     }
-    if (statusTextEl) statusTextEl.textContent = `Status: ${(status || 'OFFLINE').toUpperCase()}`;
+    if (st) st.textContent = `Status: ${(status || 'OFFLINE').toUpperCase()}`;
 
     const dot = document.getElementById('discord-status-dot');
     if (dot) dot.className = 'status-dot ' + getStatusClass(status);
 
-    const container = document.getElementById('activities-container');
-    if (!container) return;
-    container.innerHTML = '';
+    const con = document.getElementById('activities-container');
+    if (!con) return;
+    con.innerHTML = '';
 
-    if (activities.length === 0) {
+    if (!activities.length) {
       const p = document.createElement('p');
       p.className = 'custom-status';
       p.textContent = 'No current activity';
-      container.appendChild(p);
+      con.appendChild(p);
     } else {
       activities.forEach(act => {
         if (act.type === 4) {
-          const custom = document.createElement('div');
-          custom.className = 'custom-status';
-          custom.textContent = act.state || '';
-          container.appendChild(custom);
+          const c = document.createElement('div');
+          c.className = 'custom-status';
+          c.textContent = act.state || '';
+          con.appendChild(c);
           return;
         }
         const card = document.createElement('div');
         card.className = 'activity-card';
         const img = document.createElement('img');
-        img.src = resolveLargeImage(act) || 'https://cdn.discordapp.com/embed/avatars/0.png';
-        img.alt = act.name || 'activity';
+        img.src = resolveImage(act) || 'https://cdn.discordapp.com/embed/avatars/0.png';
+        img.alt = act.name || '';
         img.loading = 'lazy';
         const info = document.createElement('div');
         info.className = 'activity-info';
-        const title = document.createElement('h3');
-        title.textContent = act.name || 'Unknown';
-        info.appendChild(title);
+        const t = document.createElement('h3');
+        t.textContent = act.name || 'Unknown';
+        info.appendChild(t);
         if (act.details) {
-          const d = document.createElement('p');
-          d.textContent = act.details;
-          info.appendChild(d);
+          const p = document.createElement('p');
+          p.textContent = act.details;
+          info.appendChild(p);
         }
         if (act.state) {
-          const s = document.createElement('p');
-          s.textContent = act.state;
-          info.appendChild(s);
+          const p = document.createElement('p');
+          p.textContent = act.state;
+          info.appendChild(p);
         }
         card.appendChild(img);
         card.appendChild(info);
-        container.appendChild(card);
+        con.appendChild(card);
       });
     }
   } catch (e) {
-    console.error('Failed to load Discord presence', e);
+    console.error('Discord error', e);
   }
 }
 
-loadDiscordPresence();
-setInterval(loadDiscordPresence, 30000);
+loadDiscord();
+setInterval(loadDiscord, 30000);
