@@ -29,7 +29,7 @@
 </head>
 <body>
   <main class="container">
-    <header class="card top-header">
+    <header class="glass top-header">
       <div class="header-left">
         <div class="avatar-ring">
           <img src="/Assets/s_source/pfp.jpeg" alt="avatar" class="avatar" />
@@ -52,28 +52,33 @@
       </div>
     </header>
 
-    <section class="card">
-      <h2 class="section-title"><span class="dim">✦</span> Projects</h2>
+    <section class="glass">
+      <h2 class="section-title"><span class="muted">✦</span> Projects</h2>
       <div class="tilt-grid" id="projects-grid"></div>
     </section>
 
-    <section class="card">
-      <h2 class="section-title"><span class="dim">✦</span> Projects in Development</h2>
-      <div class="repo-grid" id="repo-grid"></div>
+    <section class="glass">
+      <h2 class="section-title"><span class="muted">✦</span> Projects in Development</h2>
+      <div class="carousel-wrap">
+        <button class="carousel-btn carousel-prev" id="repo-prev">‹</button>
+        <div class="carousel-track" id="repo-track"></div>
+        <button class="carousel-btn carousel-next" id="repo-next">›</button>
+      </div>
+      <div class="carousel-dots" id="repo-dots"></div>
     </section>
 
-    <section class="card">
-      <h2 class="section-title"><span class="dim">✦</span> Buns</h2>
-      <p class="dim" style="margin-bottom:0.85rem">buns buns Buns</p>
-      <div id="template-grid" class="templates-grid"></div>
+    <section class="glass">
+      <h2 class="section-title"><span class="muted">✦</span> Buns</h2>
+      <p class="muted" style="margin-bottom:0.85rem">buns buns Buns</p>
+      <div id="template-grid" class="tilt-grid"></div>
     </section>
 
-    <section class="card">
-      <h2 class="section-title"><span class="dim">✦</span> Current Activities</h2>
+    <section class="glass">
+      <h2 class="section-title"><span class="muted">✦</span> Current Activities</h2>
       <div id="activities-container" class="activities"></div>
     </section>
 
-    <section class="card dob-card">
+    <section class="glass dob-card">
       <div class="dob-date">
         <h2>Dec <span>18th</span></h2>
       </div>

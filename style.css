@@ -17,7 +17,7 @@ body {
   color: #eee;
   min-height: 100vh;
   padding: 2rem 1rem;
-  background: #0a0a0a;
+  background: #050505;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -25,24 +25,68 @@ body {
 }
 
 .container {
-  max-width: 680px;
+  max-width: 720px;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
-.card {
-  background: #111;
-  border: 1px solid #222;
+/* ─── Glass Card + Hyprland-style border glow ──────────────────────────── */
+
+.glass {
+  position: relative;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 1rem;
   padding: 1.25rem;
   animation: fadeUp 0.5s ease both;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.card:hover {
-  border-color: #333;
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
+    rgba(255, 255, 255, 0.02) 60%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass > * {
+  position: relative;
+  z-index: 2;
 }
 
 .top-header {
@@ -62,7 +106,7 @@ body {
 .avatar-ring {
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #555, #aaa);
+  background: linear-gradient(135deg, #666, #ccc);
 }
 
 .avatar {
@@ -87,8 +131,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.9rem;
   padding: 0.45rem 0.7rem;
 }
@@ -114,7 +158,7 @@ body {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  border: 2px solid #0a0a0a;
+  border: 2px solid #050505;
 }
 
 .online { background: #43b581; }
@@ -122,19 +166,14 @@ body {
 .dnd { background: #f04747; }
 .offline { background: #555; }
 
-.online {
-  animation: pulse 2s ease-in-out infinite;
-}
+.online { animation: pulse 2s ease-in-out infinite; }
 
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.4); }
   50% { box-shadow: 0 0 0 5px rgba(67, 181, 129, 0); }
 }
 
-.presence-text h2 {
-  font-size: 0.85rem;
-  font-weight: 400;
-}
+.presence-text h2 { font-size: 0.85rem; font-weight: 400; }
 
 .presence-text p {
   font-size: 0.72rem;
@@ -151,13 +190,13 @@ body {
   gap: 0.5rem;
 }
 
-.dim { opacity: 0.45; }
+.muted { opacity: 0.45; }
 
-/* ─── Tilt Grid/Cards ───────────────────────────────────────────────────── */
+/* ─── Tilt Cards ───────────────────────────────────────────────────────── */
 
 .tilt-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.7rem;
   perspective: 1200px;
 }
@@ -166,8 +205,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.85rem;
   padding: 0.9rem;
   text-decoration: none;
@@ -177,7 +216,7 @@ body {
   cursor: pointer;
 }
 
-.tilt-card:hover { border-color: #555; }
+.tilt-card:hover { border-color: rgba(255, 255, 255, 0.2); }
 
 .tilt-card h3 {
   font-size: 0.95rem;
@@ -207,48 +246,114 @@ body {
   opacity: 0.5;
 }
 
-/* ─── Repo Grid/Cards ───────────────────────────────────────────────────── */
+/* ─── Carousel ─────────────────────────────────────────────────────────── */
 
-.repo-grid {
+.carousel-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carousel-track {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.7rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  overflow: hidden;
   perspective: 1200px;
+}
+
+.carousel-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  color: #ccc;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.carousel-dot.active {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .repo-card {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.85rem;
   padding: 0.9rem;
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s ease-out, border-color 0.2s ease;
   transform-style: preserve-3d;
+  min-height: 110px;
 }
 
-.repo-card:hover { border-color: #555; }
+.repo-card:hover { border-color: rgba(255, 255, 255, 0.2); }
 
 .repo-card h3 {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .repo-card p {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   opacity: 0.6;
-  line-height: 1.4;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .repo-meta {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin-top: 0.4rem;
-  font-size: 0.72rem;
+  gap: 0.5rem;
+  margin-top: auto;
+  font-size: 0.68rem;
   opacity: 0.5;
 }
 
@@ -259,31 +364,24 @@ body {
 }
 
 .repo-lang-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   display: inline-block;
 }
 
-/* ─── Templates ─────────────────────────────────────────────────────────── */
-
-.templates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 0.7rem;
-  perspective: 1200px;
-}
+/* ─── Templates ────────────────────────────────────────────────────────── */
 
 .template-card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.85rem;
   padding: 0.9rem;
   transition: transform 0.15s ease-out, border-color 0.2s ease;
   transform-style: preserve-3d;
 }
 
-.template-card:hover { border-color: #444; }
+.template-card:hover { border-color: rgba(255, 255, 255, 0.15); }
 
 .template-card h3 {
   font-size: 0.92rem;
@@ -291,10 +389,7 @@ body {
   margin-bottom: 0.25rem;
 }
 
-.template-card p {
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
+.template-card p { font-size: 0.8rem; opacity: 0.6; }
 
 .template-meta {
   display: block;
@@ -312,8 +407,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.85rem;
   padding: 0.7rem;
 }
@@ -335,8 +430,8 @@ body {
 }
 
 .custom-status {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 0.65rem;
   padding: 0.45rem 0.7rem;
   font-size: 0.83rem;
@@ -370,7 +465,7 @@ body {
 .dob-divider {
   width: 2px;
   align-self: stretch;
-  background: #2a2a2a;
+  background: rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -380,12 +475,9 @@ body {
   margin-bottom: 0.2rem;
 }
 
-.dob-info p {
-  font-size: 0.82rem;
-  opacity: 0.6;
-}
+.dob-info p { font-size: 0.82rem; opacity: 0.6; }
 
-/* ─── Helpers ───────────────────────────────────────────────────────────── */
+/* ─── Helpers ──────────────────────────────────────────────────────────── */
 
 .tile-wide { grid-column: span 2; }
 
@@ -394,42 +486,49 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.card:nth-child(1) { animation-delay: 0.05s; }
-.card:nth-child(2) { animation-delay: 0.1s; }
-.card:nth-child(3) { animation-delay: 0.15s; }
-.card:nth-child(4) { animation-delay: 0.2s; }
-.card:nth-child(5) { animation-delay: 0.25s; }
-.card:nth-child(6) { animation-delay: 0.3s; }
+.glass:nth-child(1) { animation-delay: 0.05s; }
+.glass:nth-child(2) { animation-delay: 0.1s; }
+.glass:nth-child(3) { animation-delay: 0.15s; }
+.glass:nth-child(4) { animation-delay: 0.2s; }
+.glass:nth-child(5) { animation-delay: 0.25s; }
+.glass:nth-child(6) { animation-delay: 0.3s; }
 
 /* ─── Responsive ────────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
   body { padding: 0.75rem 0.5rem; }
-
-  .card { padding: 1rem; border-radius: 0.9rem; }
-
+  .container { gap: 0.75rem; }
+  .glass { padding: 1rem; border-radius: 0.9rem; }
   .top-header { flex-direction: column; align-items: stretch; }
-
   .discord-presence { width: 100%; justify-content: center; }
+  .tilt-grid { grid-template-columns: 1fr; }
+  .tile-wide { grid-column: span 1; }
 
-  .tilt-grid,
-  .repo-grid,
-  .templates-grid { grid-template-columns: 1fr; }
+  .carousel-track {
+    grid-template-columns: 1fr 1fr;
+  }
+  .carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
+  }
 
   .dob-card {
     flex-direction: column;
     text-align: center;
     gap: 0.65rem;
   }
-
   .dob-divider {
     width: 100%;
     height: 2px;
   }
-
   .dob-date h2 { flex-direction: row; gap: 0.5rem; }
+}
 
-  .tile-wide { grid-column: span 1; }
+@media (max-width: 400px) {
+  .carousel-track {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
