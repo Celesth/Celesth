@@ -28,6 +28,17 @@ function initTilt(selector) {
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
+    card.addEventListener('touchmove', e => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      const r = card.getBoundingClientRect();
+      const x = touch.clientX - r.left, y = touch.clientY - r.top;
+      const cx = r.width / 2, cy = r.height / 2;
+      card.style.transform = `rotateX(${((y - cy) / cy) * -4}deg) rotateY(${((x - cx) / cx) * 4}deg)`;
+    }, { passive: true });
+    card.addEventListener('touchend', () => {
+      card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
   });
 }
 
