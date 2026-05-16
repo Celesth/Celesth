@@ -168,9 +168,7 @@ body::before {
   gap: 0.5rem;
 }
 
-.accent {
-  color: #aaa;
-}
+.accent { color: #aaa; }
 
 .section-subtitle {
   opacity: 0.45;
@@ -178,13 +176,16 @@ body::before {
   font-size: 0.88rem;
 }
 
-.projects-grid {
+/* ─── 3D Tilt Cards ──────────────────────────────────────────────────────── */
+
+.tilt-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0.7rem;
+  perspective: 1200px;
 }
 
-.project-card {
+.tilt-card {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -194,15 +195,17 @@ body::before {
   padding: 0.9rem;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.15s ease-out, border-color 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
 }
 
-.project-card:hover {
-  transform: translateY(-2px);
+.tilt-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.project-card h3 {
+.tilt-card h3 {
   font-size: 0.95rem;
   font-weight: 400;
   display: flex;
@@ -210,19 +213,19 @@ body::before {
   gap: 0.5rem;
 }
 
-.project-card p {
+.tilt-card p {
   font-size: 0.8rem;
   opacity: 0.65;
   line-height: 1.4;
 }
 
-.card-link {
+.tilt-card .card-link {
   margin-top: auto;
   font-size: 0.78rem;
   color: #bbb;
 }
 
-.badge {
+.tilt-card .badge {
   font-size: 0.62rem;
   background: rgba(255, 255, 255, 0.07);
   padding: 2px 6px;
@@ -230,32 +233,77 @@ body::before {
   opacity: 0.5;
 }
 
-.games-grid {
+/* ─── Repo-specific ─────────────────────────────────────────────────────── */
+
+.repo-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  opacity: 0.55;
+}
+
+.repo-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.repo-lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.repo-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0.7rem;
+  perspective: 1200px;
 }
 
-.game-icon {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 0.85rem;
-  object-fit: cover;
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-  filter: grayscale(0.4);
+  border-radius: 0.85rem;
+  padding: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease-out, border-color 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.game-icon:hover {
-  transform: scale(1.07);
-  border-color: rgba(255, 255, 255, 0.25);
-  filter: grayscale(0);
+.repo-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
 }
+
+.repo-card h3 {
+  font-size: 0.95rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.repo-card p {
+  font-size: 0.8rem;
+  opacity: 0.65;
+  line-height: 1.4;
+}
+
+/* ─── Template Tiles ────────────────────────────────────────────────────── */
 
 .templates-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 0.7rem;
+  perspective: 1200px;
 }
 
 .template-card {
@@ -263,11 +311,12 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.85rem;
   padding: 0.9rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.15s ease-out, border-color 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .template-card:hover {
-  transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -289,6 +338,8 @@ body::before {
   color: #bbb;
   opacity: 0.65;
 }
+
+/* ─── Activities ────────────────────────────────────────────────────────── */
 
 .activities {
   display: flex;
@@ -341,15 +392,15 @@ body::before {
   align-self: flex-start;
 }
 
+/* ─── Birthday ──────────────────────────────────────────────────────────── */
+
 .dob-card {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
 
-.dob-date {
-  flex-shrink: 0;
-}
+.dob-date { flex-shrink: 0; }
 
 .dob-date h2 {
   font-size: 1.5rem;
@@ -382,19 +433,13 @@ body::before {
   opacity: 0.65;
 }
 
-.tile-wide {
-  grid-column: span 2;
-}
+/* ─── Helpers ───────────────────────────────────────────────────────────── */
+
+.tile-wide { grid-column: span 2; }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .glass-card:nth-child(1) { animation-delay: 0.05s; }
@@ -404,10 +449,10 @@ body::before {
 .glass-card:nth-child(5) { animation-delay: 0.25s; }
 .glass-card:nth-child(6) { animation-delay: 0.3s; }
 
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+
 @media (max-width: 640px) {
-  body {
-    padding: 0.75rem 0.65rem;
-  }
+  body { padding: 0.75rem 0.65rem; }
 
   .glass-card {
     padding: 1rem;
@@ -424,16 +469,10 @@ body::before {
     justify-content: center;
   }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .tilt-grid,
+  .repo-grid,
   .templates-grid {
     grid-template-columns: 1fr;
-  }
-
-  .games-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 
   .dob-card {
@@ -452,15 +491,7 @@ body::before {
     gap: 0.5rem;
   }
 
-  .tile-wide {
-    grid-column: span 1;
-  }
-}
-
-@media (max-width: 400px) {
-  .games-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .tile-wide { grid-column: span 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
